@@ -2,6 +2,8 @@
 const path = require("path");
 const htmlWebpackPlugin = require('html-webpack-plugin')
 
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+
 const isDevelopment   = process.env.NODE_ENV !== 'production'
 
 module.exports = {
@@ -15,8 +17,9 @@ module.exports = {
 
   
   devServer : {
-    contentBase : path.resolve(__dirname , 'public') //ablita o refresh automatico da pagina criando um servido
+    contentBase : path.resolve(__dirname , 'public') ,//ablita o refresh automatico da pagina criando um servido
     // webpack e carrega o nosso html
+    hot : true
   },
   
   resolve : {
@@ -25,12 +28,14 @@ module.exports = {
   },
   
   plugins : [
+    isDevelopment  && new  ReactRefreshWebpackPlugin(),
     new htmlWebpackPlugin ({
-      template : path.resolve(__dirname , 'public',  'index.html') // permite servir o arquivo estatico html,
+      template : path.resolve(__dirname , 'public',  'index.html'), // permite servir o arquivo estatico html,
       //sem precisa colocar o caminho do  src para o js manualmente no arquivo index.html
       // criando automaticamente uma copia do html igual o bundle foi feito
+
     })
-  ],
+  ].filter(Boolean),
 
   module: {
     rules: [
@@ -39,8 +44,16 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader:"babel-loader",
-        },
+         
+          options : {
+            plugins : [
+              isDevelopment  && require.resolve('react-refresh/babel')
+            ].filter(Boolean)
+          }
+        }
       },
+
+
       {
         test: /\.js$/,
         exclude: /node_modules/,

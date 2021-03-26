@@ -1,11 +1,21 @@
-import './styles/global.scss'
+import { RepositoryList } from "./components/Repository";
+import   { Counter }  from './components/Counter';
+import "./styles/global.scss";
 
 
 
-function App(){
 
-   
-    return <h1>Configuração Completa para Trabalhar com o ReactJS</h1>
+function App() {
+  return (
+    <>
+    
+      <RepositoryList />
+      <Counter />
+    </>
+  )
 }
 
-export default App
+
+
+
+export default App;
