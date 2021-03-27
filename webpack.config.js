@@ -9,7 +9,7 @@ const isDevelopment   = process.env.NODE_ENV !== 'production'
 module.exports = {
   mode : isDevelopment ? 'development' : 'production', //carrega o codigo de forma mais rapida sem perfomar o nosso codigo do bundle
   devtool : isDevelopment ? 'eval-source-map' : 'source-map',// permite ver as linhas certas do nosso app que tem problema no devtool
-  entry: path.resolve(__dirname, "src", "index.jsx"),
+  entry: path.resolve(__dirname, "src", "index.tsx"),
   output: {
     path: path.resolve(__dirname, "dist"),
     filename:"bundle.js",
@@ -23,7 +23,7 @@ module.exports = {
   },
   
   resolve : {
-    extensions : ['.js', '.jsx'] // indica qual extensoes de arquivo nos estamos usando 
+    extensions : ['.js', '.jsx', '.ts', '.tsx'] // indica qual extensoes de arquivo nos estamos usando 
     // para que o webpack procure por eles  e fassa  a conversao para o nosso bundle 
   },
   
@@ -40,7 +40,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx$/,
+        test: /\.(j|t)sx$/, // estamos dizendo q na nossa aplicação teremos tanto codigo javacript como typescript
         exclude: /node_modules/,
         use: {
           loader:"babel-loader",
